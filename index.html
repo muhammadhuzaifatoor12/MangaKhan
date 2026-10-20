@@ -44,6 +44,9 @@
       }
 
       .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         color: #fff;
         font-size: 1.2rem;
         font-weight: 800;
@@ -51,7 +54,19 @@
         text-decoration: none;
       }
 
-      .brand span {
+      .brand img {
+        display: block;
+        width: 70px;
+        height: auto;
+        border: 1px solid rgb(255 255 255 / 14%);
+        border-radius: 6px;
+      }
+
+      .brand > span {
+        color: #fff;
+      }
+
+      .brand > span span {
         color: #c7a2ff;
       }
 
@@ -115,6 +130,11 @@
         border: 1px solid rgb(255 255 255 / 12%);
         border-radius: 12px;
         background: rgb(255 255 255 / 4%);
+      }
+
+      .reader {
+        width: min(100%, 768px);
+        margin: 0 auto;
       }
 
       .reader-hint {
@@ -192,6 +212,43 @@
         text-align: center;
       }
 
+      .roadmap {
+        width: min(100%, 980px);
+        margin: 44px auto 0;
+      }
+
+      .roadmap-heading {
+        margin: 0 0 18px;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        letter-spacing: -0.03em;
+        text-align: center;
+      }
+
+      .roadmap-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .roadmap-card {
+        padding: 22px;
+        border: 1px solid rgb(255 255 255 / 12%);
+        border-radius: 12px;
+        background: rgb(255 255 255 / 4%);
+      }
+
+      .roadmap-card h3 {
+        margin: 0 0 8px;
+        color: #e0caff;
+        font-size: 1.1rem;
+      }
+
+      .roadmap-card p {
+        margin: 0;
+        color: #bcb8c5;
+        line-height: 1.7;
+      }
+
       footer {
         padding: 22px 16px;
         border-top: 1px solid rgb(255 255 255 / 9%);
@@ -207,6 +264,15 @@
 
         .header-note {
           font-size: 0.78rem;
+        }
+
+        .brand {
+          gap: 7px;
+          font-size: 1rem;
+        }
+
+        .brand img {
+          width: 54px;
         }
 
         .reader-toolbar {
@@ -229,13 +295,29 @@
         figure {
           border-radius: 9px;
         }
+
+        .roadmap {
+          margin-top: 32px;
+        }
+
+        .roadmap-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .roadmap-card {
+          padding: 18px;
+        }
       }
     </style>
   </head>
   <body>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="./" aria-label="MangaKhan home">Manga<span>Khan</span></a>
+        <a class="brand" href="./" aria-label="MangaKhan home">
+          <img src="Images/MangaKhan-profile.png" alt="MangaKhan profile">
+          <span>Manga<span>Khan</span></span>
+        </a>
         <span class="header-note">A story worth discovering</span>
       </div>
     </header>
@@ -254,10 +336,10 @@
 
         <section class="reader" aria-label="Manga page reader">
           <div class="reader-toolbar">
-            <p class="reader-hint">Zoom in to read the panels. Scroll sideways when zoomed.</p>
+            <p class="reader-hint">Read down the page. Zoom in for panel details.</p>
             <div class="zoom-controls" role="group" aria-label="Image zoom controls">
               <button id="zoom-out" type="button" aria-label="Zoom out" disabled>-</button>
-              <output id="zoom-level" class="zoom-level" aria-live="polite">150%</output>
+              <output id="zoom-level" class="zoom-level" aria-live="polite">100%</output>
               <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
               <button id="zoom-reset" type="button" aria-label="Reset zoom">Fit</button>
             </div>
@@ -279,6 +361,20 @@
             </figcaption>
           </figure>
         </section>
+
+        <section class="roadmap" aria-labelledby="roadmap-heading">
+          <h2 class="roadmap-heading" id="roadmap-heading">What’s coming to MangaKhan</h2>
+          <div class="roadmap-grid">
+            <article class="roadmap-card">
+              <h3>Proper manga reader</h3>
+              <p>Clear, high-resolution pages, next and previous chapters, zoom, and mobile-friendly reading.</p>
+            </article>
+            <article class="roadmap-card">
+              <h3>Real website features</h3>
+              <p>Bookmarks, reading history, and user accounts, if we add a database and authentication system.</p>
+            </article>
+          </div>
+        </section>
       </article>
     </main>
 
@@ -292,7 +388,7 @@
       const minZoom = 100;
       const maxZoom = 300;
       const zoomStep = 25;
-      let zoom = 150;
+      let zoom = 100;
 
       function updateZoom(nextZoom) {
         zoom = Math.min(maxZoom, Math.max(minZoom, nextZoom));
