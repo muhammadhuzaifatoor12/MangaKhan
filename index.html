@@ -29,7 +29,7 @@
         --brand-color: #fff;
         --title-start: #fff;
         --title-mid: #b9a0ee;
-        --title-end: #272133;
+        --title-end: #716a7d;
         background: var(--page-background);
         color: var(--text-primary);
         font-synthesis: none;
@@ -385,7 +385,7 @@
       .author-signature {
         display: inline-flex;
         align-items: baseline;
-        gap: 0;
+        gap: 0.3em;
         font-size: 1.08em;
         letter-spacing: 0.025em;
         text-shadow: 0 1px 8px rgb(0 0 0 / 22%);
@@ -410,30 +410,33 @@
       h1 {
         margin: 0;
         background-image: linear-gradient(
-          110deg,
+          90deg,
           var(--title-start) 0%,
-          var(--title-mid) 35%,
-          var(--title-end) 52%,
-          var(--title-mid) 68%,
+          var(--title-mid) 28%,
+          var(--title-end) 50%,
+          var(--title-mid) 72%,
           var(--title-start) 100%
         );
-        background-size: 240% 100%;
+        background-size: 300% 100%;
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
         font-size: clamp(2.2rem, 7vw, 4.5rem);
         letter-spacing: -0.045em;
         line-height: 1.05;
-        animation: title-light-dark 8s ease-in-out infinite;
+        animation: title-light-dark 5s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px var(--page-glow));
       }
 
       @keyframes title-light-dark {
         0%,
         100% {
           background-position: 0% 50%;
+          filter: brightness(1.15) drop-shadow(0 0 12px var(--page-glow));
         }
         50% {
           background-position: 100% 50%;
+          filter: brightness(0.82) drop-shadow(0 0 3px var(--page-glow));
         }
       }
 
@@ -458,10 +461,77 @@
       }
 
       .story-summary {
-        max-width: 590px;
-        margin: 8px auto 0;
-        color: var(--text-muted);
-        line-height: 1.7;
+        display: block;
+        width: min(100%, 520px);
+        height: auto;
+        margin: 10px auto 0;
+        overflow: visible;
+        filter: drop-shadow(0 0 10px rgb(48 141 255 / 32%));
+      }
+
+      .katana-red-slash,
+      .katana-blue-slash {
+        fill: none;
+        stroke-linecap: round;
+        stroke-width: 5;
+      }
+
+      .katana-red-slash {
+        stroke: #f23b52;
+        filter: drop-shadow(0 0 5px rgb(242 59 82 / 80%));
+        animation: katana-slash 3.8s ease-in-out infinite;
+      }
+
+      .katana-blue-slash {
+        stroke: #55b8ff;
+        filter: drop-shadow(0 0 6px rgb(85 184 255 / 85%));
+        animation: katana-slash 3.8s ease-in-out -1.9s infinite;
+      }
+
+      .katana-blade {
+        fill: url("#katana-blade");
+        stroke: #d6edff;
+        stroke-width: 1.5;
+      }
+
+      .katana-edge {
+        fill: none;
+        stroke: #f5fbff;
+        stroke-linecap: round;
+        stroke-width: 2;
+      }
+
+      .katana-handle {
+        stroke: #da2947;
+        stroke-linecap: round;
+        stroke-width: 13;
+      }
+
+      .katana-wrap {
+        fill: none;
+        stroke: #e9f4ff;
+        stroke-linecap: round;
+        stroke-width: 2.5;
+      }
+
+      .katana-guard {
+        fill: #171927;
+        stroke: #58adff;
+        stroke-width: 3;
+      }
+
+      @keyframes katana-slash {
+        0%,
+        100% {
+          opacity: 0.55;
+          stroke-dasharray: 8 18;
+          stroke-dashoffset: 0;
+        }
+        50% {
+          opacity: 1;
+          stroke-dasharray: 26 8;
+          stroke-dashoffset: 26;
+        }
       }
 
       .reader-toolbar {
@@ -916,7 +986,7 @@
           <h1>A Light Born from Darkness</h1>
           <p class="byline">
             A story by
-            <strong class="author-signature"><span class="brand-manga">Tora B </span><span class="brand-khan">Khan</span></strong>
+            <strong class="author-signature" aria-label="Tora B Khan"><span class="brand-manga">Tora B</span><span class="brand-khan">Khan</span></strong>
             <svg class="signature-sword" viewBox="0 0 40 36" aria-hidden="true">
               <path class="slash" d="m3 9 8-4M2 15l6-3M6 21l5-2"/>
               <path class="blade" d="m12 27 18-20 3 1-15 24-4 1z"/>
@@ -929,10 +999,28 @@
               <path d="m21.5 17.8-.9 1.5m.9-1.5.9 1.5m-2.2-.4h2.6" stroke="var(--page-background)" stroke-width=".7" stroke-linecap="round"/>
             </svg>
           </p>
-          <p class="story-summary">
-            When danger finds a mother and her child, a hidden power awakens
-            and changes their journey forever.
-          </p>
+          <svg class="story-summary" viewBox="0 0 600 130" role="img" aria-label="A long katana with glowing red and blue slashes">
+            <defs>
+              <linearGradient id="katana-blade" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stop-color="#7188a9"/>
+                <stop offset=".48" stop-color="#f7fbff"/>
+                <stop offset="1" stop-color="#75c6ff"/>
+              </linearGradient>
+              <linearGradient id="katana-glow" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#f23b52"/>
+                <stop offset="1" stop-color="#408dff"/>
+              </linearGradient>
+            </defs>
+            <path class="katana-red-slash" d="M115 95 493 13"/>
+            <path class="katana-blue-slash" d="m157 119 387-92"/>
+            <path d="m22 35 95 18m-87-2 88 17m-80-1 75 15" fill="none" stroke="url(#katana-glow)" stroke-linecap="round" stroke-width="3"/>
+            <path class="katana-handle" d="m48 74 83-18"/>
+            <path class="katana-wrap" d="m55 68 7 12m7-15 7 12m7-15 7 12m7-15 7 12m7-15 7 12m7-15 7 12"/>
+            <path class="katana-guard" d="m123 45 7-2 8 29-8 2c-8-5-11-20-7-29Z"/>
+            <path class="katana-blade" d="m134 57 394-48-16 18-377 49z"/>
+            <path class="katana-edge" d="m143 67 367-48"/>
+            <path d="m516 10 17-4-8 16-13 5z" fill="#eff9ff" stroke="#58adff" stroke-width="1.5"/>
+          </svg>
         </header>
 
         <section class="reader" aria-label="Manga page reader">
