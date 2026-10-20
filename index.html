@@ -61,7 +61,7 @@
       }
 
       main {
-        width: min(100% - 32px, 920px);
+        width: min(100% - 32px, 1200px);
         margin: 0 auto;
         padding: 72px 0 80px;
       }
@@ -104,18 +104,84 @@
         line-height: 1.7;
       }
 
+      .reader-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+        padding: 12px 14px;
+        border: 1px solid rgb(255 255 255 / 12%);
+        border-radius: 12px;
+        background: rgb(255 255 255 / 4%);
+      }
+
+      .reader-hint {
+        margin: 0;
+        color: #c1bdc9;
+        font-size: 0.9rem;
+      }
+
+      .zoom-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .zoom-controls button {
+        min-width: 42px;
+        min-height: 42px;
+        padding: 8px 12px;
+        border: 1px solid rgb(255 255 255 / 18%);
+        border-radius: 8px;
+        background: #25212f;
+        color: #fff;
+        font: inherit;
+        font-weight: 650;
+        cursor: pointer;
+      }
+
+      .zoom-controls button:hover:not(:disabled) {
+        border-color: #c7a2ff;
+        background: #342744;
+      }
+
+      .zoom-controls button:focus-visible {
+        outline: 2px solid #c7a2ff;
+        outline-offset: 2px;
+      }
+
+      .zoom-controls button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .zoom-level {
+        min-width: 54px;
+        color: #f5f1ed;
+        font-size: 0.9rem;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+      }
+
       figure {
         margin: 0;
-        overflow: hidden;
         border: 1px solid rgb(255 255 255 / 12%);
         border-radius: 14px;
         background: #08080c;
         box-shadow: 0 24px 80px rgb(0 0 0 / 40%);
       }
 
-      figure img {
+      .image-viewport {
+        overflow: auto;
+        overscroll-behavior: contain;
+      }
+
+      .image-viewport img {
         display: block;
         width: 100%;
+        max-width: none;
         height: auto;
       }
 
@@ -141,6 +207,19 @@
 
         .header-note {
           font-size: 0.78rem;
+        }
+
+        .reader-toolbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .zoom-controls {
+          width: 100%;
+        }
+
+        .zoom-controls button:last-child {
+          margin-left: auto;
         }
 
         main {
@@ -173,18 +252,57 @@
           </p>
         </header>
 
-        <figure>
-          <img
-            src="manga-story.png"
-            alt="A manga page following a mother and child through a dangerous encounter and the awakening of a radiant power."
-            width="768"
-            height="819"
-          >
-          <figcaption>Read the story, panel by panel.</figcaption>
-        </figure>
+        <section class="reader" aria-label="Manga page reader">
+          <div class="reader-toolbar">
+            <p class="reader-hint">Zoom in to read the panels. Scroll sideways when zoomed.</p>
+            <div class="zoom-controls" role="group" aria-label="Image zoom controls">
+              <button id="zoom-out" type="button" aria-label="Zoom out" disabled>-</button>
+              <output id="zoom-level" class="zoom-level" aria-live="polite">100%</output>
+              <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
+              <button id="zoom-reset" type="button" aria-label="Reset zoom">Fit</button>
+            </div>
+          </div>
+
+          <figure>
+            <div class="image-viewport">
+              <img
+                id="manga-image"
+                src="manga-story.png"
+                alt="A manga page following a mother and child through a dangerous encounter and the awakening of a radiant power."
+                width="768"
+                height="819"
+              >
+            </div>
+            <figcaption>Read the story, panel by panel.</figcaption>
+          </figure>
+        </section>
       </article>
     </main>
 
     <footer>&copy; 2026 MangaKhan &middot; Story by Huzaifa</footer>
+    <script>
+      const image = document.querySelector("#manga-image");
+      const zoomOutButton = document.querySelector("#zoom-out");
+      const zoomInButton = document.querySelector("#zoom-in");
+      const zoomResetButton = document.querySelector("#zoom-reset");
+      const zoomLevel = document.querySelector("#zoom-level");
+      const minZoom = 100;
+      const maxZoom = 300;
+      const zoomStep = 25;
+      let zoom = minZoom;
+
+      function updateZoom(nextZoom) {
+        zoom = Math.min(maxZoom, Math.max(minZoom, nextZoom));
+        image.style.width = `${zoom}%`;
+        zoomLevel.value = `${zoom}%`;
+        zoomLevel.textContent = `${zoom}%`;
+        zoomOutButton.disabled = zoom === minZoom;
+        zoomInButton.disabled = zoom === maxZoom;
+      }
+
+      zoomOutButton.addEventListener("click", () => updateZoom(zoom - zoomStep));
+      zoomInButton.addEventListener("click", () => updateZoom(zoom + zoomStep));
+      zoomResetButton.addEventListener("click", () => updateZoom(minZoom));
+    </script>
   </body>
 </html>
