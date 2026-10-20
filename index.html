@@ -27,6 +27,9 @@
         --accent-color: #c7a2ff;
         --accent-strong: #e0caff;
         --brand-color: #fff;
+        --title-start: #fff;
+        --title-mid: #b9a0ee;
+        --title-end: #272133;
         background: var(--page-background);
         color: var(--text-primary);
         font-synthesis: none;
@@ -50,6 +53,9 @@
         --accent-color: #7144a8;
         --accent-strong: #593487;
         --brand-color: #282334;
+        --title-start: #282334;
+        --title-mid: #9c5bd6;
+        --title-end: #fff;
       }
 
       * {
@@ -247,12 +253,13 @@
       .brand {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         color: var(--brand-color);
         font-size: 1.2rem;
         font-weight: 800;
         letter-spacing: 0.04em;
         text-decoration: none;
+        white-space: nowrap;
       }
 
       .brand img {
@@ -263,12 +270,81 @@
         border-radius: 6px;
       }
 
-      .brand > span {
-        color: var(--brand-color);
+      .brand-wordmark {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0;
+        text-shadow: 0 1px 8px rgb(0 0 0 / 22%);
       }
 
-      .brand > span span {
-        color: var(--accent-color);
+      .brand-manga,
+      .brand-khan {
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .brand-manga {
+        background-image: linear-gradient(110deg, #ff3b48 0%, #a80019 32%, #17131d 48%, #08070c 53%, #ee1d36 68%, #a80019 100%);
+        background-size: 240% 100%;
+        animation: manga-sheen 5s ease-in-out infinite;
+      }
+
+      .brand-khan {
+        background-image: repeating-conic-gradient(from 0deg at 50% 50%, #f5d0fe 0deg 9deg, #c084fc 9deg 18deg, #7e22ce 18deg 27deg, #4c1d95 27deg 36deg);
+        background-size: 180% 180%;
+        animation: hypnotic-purple 7s linear infinite;
+      }
+
+      .brand-sword {
+        width: 32px;
+        height: 30px;
+        flex: 0 0 auto;
+        overflow: visible;
+        color: #e7d3ff;
+        filter: drop-shadow(0 0 4px rgb(167 108 255 / 75%));
+      }
+
+      .brand-sword .blade {
+        fill: #f6f0ff;
+        stroke: #9570c9;
+        stroke-width: 0.8;
+      }
+
+      .brand-sword .sword-detail {
+        fill: none;
+        stroke: #f3b7c2;
+        stroke-linecap: round;
+        stroke-width: 1.7;
+      }
+
+      .brand-sword .slash {
+        fill: none;
+        stroke: #ed2942;
+        stroke-linecap: round;
+        stroke-width: 1.5;
+        opacity: 0.85;
+      }
+
+      @keyframes manga-sheen {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      @keyframes hypnotic-purple {
+        from {
+          background-position: 0% 50%;
+          filter: hue-rotate(0deg) drop-shadow(0 0 5px rgb(168 85 247 / 65%));
+        }
+        to {
+          background-position: 100% 50%;
+          filter: hue-rotate(28deg) drop-shadow(0 0 8px rgb(168 85 247 / 75%));
+        }
       }
 
       main {
@@ -294,9 +370,32 @@
 
       h1 {
         margin: 0;
+        background-image: linear-gradient(
+          110deg,
+          var(--title-start) 0%,
+          var(--title-mid) 35%,
+          var(--title-end) 52%,
+          var(--title-mid) 68%,
+          var(--title-start) 100%
+        );
+        background-size: 240% 100%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
         font-size: clamp(2.2rem, 7vw, 4.5rem);
         letter-spacing: -0.045em;
         line-height: 1.05;
+        animation: title-light-dark 8s ease-in-out infinite;
+      }
+
+      @keyframes title-light-dark {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
       }
 
       .byline {
@@ -564,12 +663,17 @@
         }
 
         .brand {
-          gap: 7px;
+          gap: 5px;
           font-size: 1rem;
         }
 
         .brand img {
           width: 54px;
+        }
+
+        .brand-sword {
+          width: 24px;
+          height: 25px;
         }
 
         .reader-toolbar {
@@ -604,6 +708,38 @@
 
         .roadmap-card {
           padding: 18px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .brand {
+          gap: 4px;
+          font-size: 0.9rem;
+        }
+
+        .brand img {
+          width: 46px;
+        }
+
+        .brand-sword {
+          width: 20px;
+        }
+
+        .zoom-controls {
+          gap: 5px;
+        }
+
+        .zoom-slider {
+          width: 65px;
+        }
+
+        .zoom-controls output {
+          font-size: 0.8rem;
+        }
+
+        .zoom-controls button {
+          min-width: 36px;
+          padding: 6px;
         }
       }
     </style>
@@ -695,7 +831,14 @@
       <div class="header-inner">
         <a class="brand" href="./" aria-label="MangaKhan home">
           <img src="Images/MangaKhan-profile.png" alt="MangaKhan profile">
-          <span>Manga<span>Khan</span></span>
+          <span class="brand-wordmark"><span class="brand-manga">Manga</span><span class="brand-khan">Khan</span></span>
+          <svg class="brand-sword" viewBox="0 0 40 36" aria-hidden="true">
+            <path class="slash" d="m3 9 8-4M2 15l6-3M6 21l5-2"/>
+            <path class="blade" d="m12 27 18-20 3 1-15 24-4 1z"/>
+            <path class="sword-detail" d="m15 29 14-19"/>
+            <path d="m11 24 6 5-4 4-5-5z" fill="#8b5ac2" stroke="#f3b7c2" stroke-width="1"/>
+            <path d="m8 27-3 4m7-1-3 4m9-8 3 3" stroke="#f3b7c2" stroke-linecap="round" stroke-width="1.8"/>
+          </svg>
         </a>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">
           <span class="theme-dial" aria-hidden="true">
