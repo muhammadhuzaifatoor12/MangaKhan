@@ -197,7 +197,17 @@
         overscroll-behavior: contain;
       }
 
-      .image-viewport img {
+      .manga-panels {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .manga-panels li + li {
+        margin-top: 8px;
+      }
+
+      .manga-panel {
         display: block;
         width: 100%;
         max-width: none;
@@ -346,17 +356,40 @@
           </div>
 
           <figure>
-            <div class="image-viewport">
-              <img
-                id="manga-image"
-                src="manga-story.png"
-                alt="A manga page following a mother and child through a dangerous encounter and the awakening of a radiant power."
-                width="768"
-                height="819"
-              >
+            <div class="image-viewport" role="group" aria-label="Manga panels in reading order">
+              <ol class="manga-panels">
+                <li><img class="manga-panel" src="Images/manga-panels/panel-01.png" alt="Manga panel 1" width="194" height="184" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-02.png" alt="Manga panel 2" width="114" height="184" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-03.png" alt="Manga panel 3" width="166" height="184" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-04.png" alt="Manga panel 4" width="112" height="184" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-05.png" alt="Manga panel 5" width="94" height="184" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-06.png" alt="Manga panel 6" width="88" height="184" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-07.png" alt="Manga panel 7" width="133" height="144" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-08.png" alt="Manga panel 8" width="144" height="144" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-09.png" alt="Manga panel 9" width="83" height="144" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-10.png" alt="Manga panel 10" width="106" height="144" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-11.png" alt="Manga panel 11" width="118" height="144" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-12.png" alt="Manga panel 12" width="184" height="144" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-13.png" alt="Manga panel 13" width="145" height="158" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-14.png" alt="Manga panel 14" width="129" height="158" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-15.png" alt="Manga panel 15" width="103" height="158" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-16.png" alt="Manga panel 16" width="112" height="158" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-17.png" alt="Manga panel 17" width="168" height="158" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-18.png" alt="Manga panel 18" width="111" height="158" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-19.png" alt="Manga panel 19" width="164" height="165" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-20.png" alt="Manga panel 20" width="136" height="165" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-21.png" alt="Manga panel 21" width="143" height="165" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-22.png" alt="Manga panel 22" width="114" height="165" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-23.png" alt="Manga panel 23" width="117" height="165" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-24.png" alt="Manga panel 24" width="94" height="165" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-25.png" alt="Manga panel 25" width="171" height="139" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-26.png" alt="Manga panel 26" width="201" height="139" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-27.png" alt="Manga panel 27" width="176" height="139" loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/panel-28.png" alt="Manga panel 28" width="220" height="139" loading="lazy"></li>
+              </ol>
             </div>
             <figcaption>
-              Read the story, panel by panel.
+              Read each panel from top to bottom.
               <a href="manga-story.png" target="_blank" rel="noopener">Open original image</a>
             </figcaption>
           </figure>
@@ -380,7 +413,7 @@
 
     <footer>&copy; 2026 MangaKhan &middot; Story by Huzaifa</footer>
     <script>
-      const image = document.querySelector("#manga-image");
+      const images = document.querySelectorAll(".manga-panel");
       const zoomOutButton = document.querySelector("#zoom-out");
       const zoomInButton = document.querySelector("#zoom-in");
       const zoomResetButton = document.querySelector("#zoom-reset");
@@ -392,7 +425,9 @@
 
       function updateZoom(nextZoom) {
         zoom = Math.min(maxZoom, Math.max(minZoom, nextZoom));
-        image.style.width = `${zoom}%`;
+        images.forEach((image) => {
+          image.style.width = `${zoom}%`;
+        });
         zoomLevel.value = `${zoom}%`;
         zoomLevel.textContent = `${zoom}%`;
         zoomOutButton.disabled = zoom === minZoom;
