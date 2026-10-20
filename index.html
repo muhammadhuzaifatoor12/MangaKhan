@@ -61,19 +61,19 @@
       }
 
       main {
-        width: min(100% - 32px, 1200px);
+        width: min(100% - 20px, 1600px);
         margin: 0 auto;
-        padding: 72px 0 80px;
+        padding: 28px 0 40px;
       }
 
       .story-heading {
-        max-width: 680px;
-        margin: 0 auto 32px;
+        max-width: 760px;
+        margin: 0 auto 16px;
         text-align: center;
       }
 
       .eyebrow {
-        margin: 0 0 14px;
+        margin: 0 0 8px;
         color: #c7a2ff;
         font-size: 0.78rem;
         font-weight: 700;
@@ -89,7 +89,7 @@
       }
 
       .byline {
-        margin: 18px 0 0;
+        margin: 10px 0 0;
         color: #c1bdc9;
       }
 
@@ -99,7 +99,7 @@
 
       .story-summary {
         max-width: 590px;
-        margin: 16px auto 0;
+        margin: 8px auto 0;
         color: #aaa6b2;
         line-height: 1.7;
       }
@@ -109,9 +109,9 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 12px;
-        padding: 12px 14px;
+        gap: 8px;
+        margin-bottom: 6px;
+        padding: 8px 10px;
         border: 1px solid rgb(255 255 255 / 12%);
         border-radius: 12px;
         background: rgb(255 255 255 / 4%);
@@ -168,9 +168,8 @@
       figure {
         margin: 0;
         border: 1px solid rgb(255 255 255 / 12%);
-        border-radius: 14px;
+        border-radius: 8px;
         background: #08080c;
-        box-shadow: 0 24px 80px rgb(0 0 0 / 40%);
       }
 
       .image-viewport {
@@ -183,10 +182,11 @@
         width: 100%;
         max-width: none;
         height: auto;
+        filter: none;
       }
 
       figcaption {
-        padding: 14px 18px;
+        padding: 8px 12px;
         color: #aaa6b2;
         font-size: 0.88rem;
         text-align: center;
@@ -257,7 +257,7 @@
             <p class="reader-hint">Zoom in to read the panels. Scroll sideways when zoomed.</p>
             <div class="zoom-controls" role="group" aria-label="Image zoom controls">
               <button id="zoom-out" type="button" aria-label="Zoom out" disabled>-</button>
-              <output id="zoom-level" class="zoom-level" aria-live="polite">100%</output>
+              <output id="zoom-level" class="zoom-level" aria-live="polite">150%</output>
               <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
               <button id="zoom-reset" type="button" aria-label="Reset zoom">Fit</button>
             </div>
@@ -273,7 +273,10 @@
                 height="819"
               >
             </div>
-            <figcaption>Read the story, panel by panel.</figcaption>
+            <figcaption>
+              Read the story, panel by panel.
+              <a href="manga-story.png" target="_blank" rel="noopener">Open original image</a>
+            </figcaption>
           </figure>
         </section>
       </article>
@@ -289,7 +292,7 @@
       const minZoom = 100;
       const maxZoom = 300;
       const zoomStep = 25;
-      let zoom = minZoom;
+      let zoom = 150;
 
       function updateZoom(nextZoom) {
         zoom = Math.min(maxZoom, Math.max(minZoom, nextZoom));
@@ -303,6 +306,7 @@
       zoomOutButton.addEventListener("click", () => updateZoom(zoom - zoomStep));
       zoomInButton.addEventListener("click", () => updateZoom(zoom + zoomStep));
       zoomResetButton.addEventListener("click", () => updateZoom(minZoom));
+      updateZoom(zoom);
     </script>
   </body>
 </html>
