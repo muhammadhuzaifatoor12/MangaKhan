@@ -5,33 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Read A Light Born from Darkness, a manga story by Huzaifa."
+      content="Read A Light Born from Darkness, a manga story by Tora B Khan."
     >
     <title>A Light Born from Darkness | MangaKhan</title>
     <style>
       :root {
         color-scheme: dark;
         font-family: "Segoe UI", Arial, sans-serif;
-        background: #101018;
-        color: #f5f1ed;
+        --page-background: #101018;
+        --page-glow: rgb(116 73 171 / 20%);
+        --text-primary: #f5f1ed;
+        --text-secondary: #bcb8c5;
+        --text-muted: #aaa6b2;
+        --text-subtle: #888491;
+        --border-color: rgb(255 255 255 / 9%);
+        --surface-border: rgb(255 255 255 / 12%);
+        --surface-background: rgb(255 255 255 / 4%);
+        --button-background: #25212f;
+        --button-hover: #342744;
+        --figure-background: #08080c;
+        --accent-color: #c7a2ff;
+        --accent-strong: #e0caff;
+        --brand-color: #fff;
+        background: var(--page-background);
+        color: var(--text-primary);
         font-synthesis: none;
         text-rendering: optimizeLegibility;
+      }
+
+      :root[data-theme="light"] {
+        color-scheme: light;
+        --page-background: #f6f3fb;
+        --page-glow: rgb(199 162 255 / 24%);
+        --text-primary: #282334;
+        --text-secondary: #5f596b;
+        --text-muted: #706a7a;
+        --text-subtle: #777181;
+        --border-color: rgb(40 35 52 / 12%);
+        --surface-border: rgb(40 35 52 / 14%);
+        --surface-background: rgb(255 255 255 / 68%);
+        --button-background: #fff;
+        --button-hover: #eee5fb;
+        --figure-background: #e9e5ef;
+        --accent-color: #7144a8;
+        --accent-strong: #593487;
+        --brand-color: #282334;
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html {
+        min-height: 100%;
+        background: var(--page-background);
+      }
+
       body {
+        position: relative;
+        isolation: isolate;
         min-width: 320px;
+        min-height: 100vh;
         margin: 0;
         background:
-          radial-gradient(ellipse at 50% 0, rgb(116 73 171 / 20%), transparent 48rem),
-          #101018;
+          radial-gradient(ellipse at 50% 0, var(--page-glow), transparent 48rem),
+          var(--page-background);
+        color: var(--text-primary);
+        transition: background-color 700ms ease, color 500ms ease;
+      }
+
+      .sky-effects {
+        position: fixed;
+        z-index: -1;
+        inset: 0;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 9% 17%, #fff 0 1px, transparent 2px),
+          radial-gradient(circle at 23% 42%, #fff 0 1px, transparent 2px),
+          radial-gradient(circle at 34% 11%, #d7c5ff 0 1px, transparent 2px),
+          radial-gradient(circle at 48% 28%, #fff 0 1px, transparent 2px),
+          radial-gradient(circle at 63% 13%, #fff 0 1px, transparent 2px),
+          radial-gradient(circle at 78% 37%, #d7c5ff 0 1px, transparent 2px),
+          radial-gradient(circle at 91% 18%, #fff 0 1px, transparent 2px),
+          radial-gradient(circle at 16% 73%, #d7c5ff 0 1px, transparent 2px),
+          radial-gradient(circle at 73% 79%, #fff 0 1px, transparent 2px),
+          radial-gradient(ellipse at 8% 10%, rgb(164 121 235 / 18%), transparent 34rem);
+        opacity: 0.85;
+        pointer-events: none;
+        transition: opacity 700ms ease;
+      }
+
+      :root[data-theme="light"] .sky-effects {
+        opacity: 0;
+      }
+
+      :root[data-theme="light"] body {
+        background:
+          radial-gradient(ellipse at 50% 0, var(--page-glow), transparent 48rem),
+          var(--page-background);
       }
 
       .site-header {
-        border-bottom: 1px solid rgb(255 255 255 / 9%);
+        border-bottom: 1px solid var(--border-color);
       }
 
       .header-inner {
@@ -43,11 +118,136 @@
         margin: 0 auto;
       }
 
+      .theme-toggle {
+        display: grid;
+        width: 46px;
+        height: 46px;
+        flex: 0 0 auto;
+        place-items: center;
+        padding: 0;
+        border: 1px solid var(--surface-border);
+        border-radius: 50%;
+        background: var(--surface-background);
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease;
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 20px rgb(199 162 255 / 24%);
+      }
+
+      .theme-toggle:focus-visible {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 3px;
+      }
+
+      .theme-dial {
+        position: relative;
+        display: grid;
+        width: 34px;
+        height: 34px;
+        overflow: hidden;
+        place-items: center;
+      }
+
+      .theme-icon {
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        filter: drop-shadow(0 0 8px currentColor);
+      }
+
+      .theme-moon {
+        color: #d9c9ff;
+      }
+
+      .theme-sun {
+        color: #f2a900;
+      }
+
+      .theme-stars {
+        position: absolute;
+        inset: 0;
+        color: #fff;
+        font-size: 10px;
+        line-height: 1;
+      }
+
+      .theme-stars::before,
+      .theme-stars::after {
+        position: absolute;
+        content: "✦";
+        animation: twinkle 2s ease-in-out infinite alternate;
+      }
+
+      .theme-stars::before {
+        top: 2px;
+        right: 1px;
+      }
+
+      .theme-stars::after {
+        bottom: 2px;
+        left: 1px;
+        animation-delay: 800ms;
+      }
+
+      :root[data-theme="light"] .theme-stars {
+        opacity: 0;
+      }
+
+      :root[data-theme="light"] .theme-toggle {
+        box-shadow: 0 0 18px rgb(242 169 0 / 24%);
+      }
+
+      :root[data-theme="light"] .theme-toggle:hover {
+        box-shadow: 0 0 24px rgb(242 169 0 / 40%);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      @keyframes enter-from-left {
+        from {
+          opacity: 0;
+          transform: translateX(-28px) scale(0.65);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0) scale(1);
+        }
+      }
+
+      @keyframes twinkle {
+        from {
+          opacity: 0.35;
+          transform: scale(0.7);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1.15);
+        }
+      }
+
+      :root[data-theme="light"] .theme-sun,
+      :root:not([data-theme="light"]) .theme-moon {
+        animation: enter-from-left 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+
       .brand {
         display: flex;
         align-items: center;
         gap: 10px;
-        color: #fff;
+        color: var(--brand-color);
         font-size: 1.2rem;
         font-weight: 800;
         letter-spacing: 0.04em;
@@ -58,21 +258,16 @@
         display: block;
         width: 70px;
         height: auto;
-        border: 1px solid rgb(255 255 255 / 14%);
+        border: 1px solid var(--surface-border);
         border-radius: 6px;
       }
 
       .brand > span {
-        color: #fff;
+        color: var(--brand-color);
       }
 
       .brand > span span {
-        color: #c7a2ff;
-      }
-
-      .header-note {
-        color: #bcb8c5;
-        font-size: 0.9rem;
+        color: var(--accent-color);
       }
 
       main {
@@ -89,7 +284,7 @@
 
       .eyebrow {
         margin: 0 0 8px;
-        color: #c7a2ff;
+        color: var(--accent-color);
         font-size: 0.78rem;
         font-weight: 700;
         letter-spacing: 0.18em;
@@ -104,18 +299,29 @@
       }
 
       .byline {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
         margin: 10px 0 0;
-        color: #c1bdc9;
+        color: var(--text-secondary);
       }
 
       .byline strong {
-        color: #fff;
+        color: var(--text-primary);
+      }
+
+      .pirate-hat {
+        width: 30px;
+        height: 24px;
+        color: var(--accent-color);
+        filter: drop-shadow(0 0 5px currentColor);
       }
 
       .story-summary {
         max-width: 590px;
         margin: 8px auto 0;
-        color: #aaa6b2;
+        color: var(--text-muted);
         line-height: 1.7;
       }
 
@@ -127,9 +333,10 @@
         gap: 8px;
         margin-bottom: 6px;
         padding: 8px 10px;
-        border: 1px solid rgb(255 255 255 / 12%);
+        border: 1px solid var(--surface-border);
         border-radius: 12px;
-        background: rgb(255 255 255 / 4%);
+        background: var(--surface-background);
+        transition: background-color 500ms ease, border-color 500ms ease;
       }
 
       .reader {
@@ -139,7 +346,7 @@
 
       .reader-hint {
         margin: 0;
-        color: #c1bdc9;
+        color: var(--text-secondary);
         font-size: 0.9rem;
       }
 
@@ -151,29 +358,29 @@
 
       .zoom-slider {
         width: clamp(90px, 18vw, 180px);
-        accent-color: #c7a2ff;
+        accent-color: var(--accent-color);
       }
 
       .zoom-controls button {
         min-width: 42px;
         min-height: 42px;
         padding: 8px 12px;
-        border: 1px solid rgb(255 255 255 / 18%);
+        border: 1px solid var(--surface-border);
         border-radius: 8px;
-        background: #25212f;
-        color: #fff;
+        background: var(--button-background);
+        color: var(--text-primary);
         font: inherit;
         font-weight: 650;
         cursor: pointer;
       }
 
       .zoom-controls button:hover:not(:disabled) {
-        border-color: #c7a2ff;
-        background: #342744;
+        border-color: var(--accent-color);
+        background: var(--button-hover);
       }
 
       .zoom-controls button:focus-visible {
-        outline: 2px solid #c7a2ff;
+        outline: 2px solid var(--accent-color);
         outline-offset: 2px;
       }
 
@@ -184,7 +391,7 @@
 
       .zoom-level {
         min-width: 54px;
-        color: #f5f1ed;
+        color: var(--text-primary);
         font-size: 0.9rem;
         font-variant-numeric: tabular-nums;
         text-align: center;
@@ -192,9 +399,10 @@
 
       figure {
         margin: 0;
-        border: 1px solid rgb(255 255 255 / 12%);
+        border: 1px solid var(--surface-border);
         border-radius: 8px;
-        background: #08080c;
+        background: var(--figure-background);
+        transition: background-color 500ms ease, border-color 500ms ease;
       }
 
       .image-viewport {
@@ -222,7 +430,7 @@
 
       figcaption {
         padding: 8px 12px;
-        color: #aaa6b2;
+        color: var(--text-muted);
         font-size: 0.88rem;
         text-align: center;
       }
@@ -247,27 +455,27 @@
 
       .roadmap-card {
         padding: 22px;
-        border: 1px solid rgb(255 255 255 / 12%);
+        border: 1px solid var(--surface-border);
         border-radius: 12px;
-        background: rgb(255 255 255 / 4%);
+        background: var(--surface-background);
       }
 
       .roadmap-card h3 {
         margin: 0 0 8px;
-        color: #e0caff;
+        color: var(--accent-strong);
         font-size: 1.1rem;
       }
 
       .roadmap-card p {
         margin: 0;
-        color: #bcb8c5;
+        color: var(--text-secondary);
         line-height: 1.7;
       }
 
       footer {
         padding: 22px 16px;
-        border-top: 1px solid rgb(255 255 255 / 9%);
-        color: #888491;
+        border-top: 1px solid var(--border-color);
+        color: var(--text-subtle);
         font-size: 0.85rem;
         text-align: center;
       }
@@ -277,8 +485,14 @@
           min-height: 62px;
         }
 
-        .header-note {
-          font-size: 0.78rem;
+        .theme-toggle {
+          width: 40px;
+          height: 40px;
+        }
+
+        .theme-dial {
+          width: 30px;
+          height: 30px;
         }
 
         .brand {
@@ -327,13 +541,26 @@
     </style>
   </head>
   <body>
+    <div class="sky-effects" aria-hidden="true"></div>
     <header class="site-header">
       <div class="header-inner">
         <a class="brand" href="./" aria-label="MangaKhan home">
           <img src="Images/MangaKhan-profile.png" alt="MangaKhan profile">
           <span>Manga<span>Khan</span></span>
         </a>
-        <span class="header-note">A story worth discovering</span>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode" aria-pressed="false">
+          <span class="theme-dial" aria-hidden="true">
+            <svg class="theme-icon theme-sun" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="6" fill="currentColor"/>
+              <path d="M16 1.5v4M16 26.5v4M1.5 16h4m21 0h4M5.75 5.75l2.83 2.83m14.84 14.84 2.83 2.83m0-20.5-2.83 2.83M8.58 23.42l-2.83 2.83" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            </svg>
+            <svg class="theme-icon theme-moon" viewBox="0 0 32 32" fill="none">
+              <path d="M26.7 20.5A12.4 12.4 0 0 1 11.5 5.3 12.5 12.5 0 1 0 26.7 20.5Z" fill="currentColor"/>
+              <path d="m23 5 .7 2.3L26 8l-2.3.7L23 11l-.7-2.3L20 8l2.3-.7L23 5Z" fill="white"/>
+            </svg>
+            <span class="theme-stars"></span>
+          </span>
+        </button>
       </div>
     </header>
 
@@ -342,7 +569,15 @@
         <header class="story-heading">
           <p class="eyebrow">MangaKhan Original</p>
           <h1>A Light Born from Darkness</h1>
-          <p class="byline">A story by <strong>Huzaifa</strong></p>
+          <p class="byline">
+            A story by <strong>Tora B Khan</strong>
+            <svg class="pirate-hat" viewBox="0 0 40 32" role="img" aria-label="Pirate hat">
+              <path d="M3 22.5c5.8-.7 10.1-3.8 13.1-10.3 1.4-3.1 3.4-5.7 6-7.7 1.2 4.2 4.2 7.2 8.7 9.1 2.7 1.1 4.7 3 6.2 5.7-5.2-.3-9.4 1.1-12.7 4.3-1.8 1.8-4.2 2.7-7.2 2.7-4.7 0-9.4-1.3-14.1-3.8Z" fill="currentColor"/>
+              <path d="M7 25.5c7.4 2.8 15.8 3.1 25.3.8-3.2 2.6-7.5 3.9-12.8 3.9-5.4 0-9.6-1.6-12.5-4.7Z" fill="currentColor"/>
+              <circle cx="21.5" cy="16.2" r="1.5" fill="var(--page-background)"/>
+              <path d="m21.5 17.8-.9 1.5m.9-1.5.9 1.5m-2.2-.4h2.6" stroke="var(--page-background)" stroke-width=".7" stroke-linecap="round"/>
+            </svg>
+          </p>
           <p class="story-summary">
             When danger finds a mother and her child, a hidden power awakens
             and changes their journey forever.
@@ -417,8 +652,38 @@
       </article>
     </main>
 
-    <footer>&copy; 2026 MangaKhan &middot; Story by Huzaifa</footer>
+    <footer>&copy; 2026 MangaKhan &middot; Story by Tora B Khan</footer>
     <script>
+      const root = document.documentElement;
+      const themeToggle = document.querySelector("#theme-toggle");
+      const themeStorageKey = "mangakhan-theme";
+
+      function setTheme(theme, persist = true) {
+        const isLight = theme === "light";
+        root.dataset.theme = isLight ? "light" : "dark";
+        themeToggle.setAttribute("aria-pressed", `${isLight}`);
+        themeToggle.setAttribute("aria-label", `Switch to ${isLight ? "night" : "light"} mode`);
+
+        if (persist) {
+          try {
+            localStorage.setItem(themeStorageKey, root.dataset.theme);
+          } catch (error) {
+            console.warn("Could not save the MangaKhan theme preference.", error);
+          }
+        }
+      }
+
+      let savedTheme = "dark";
+      try {
+        savedTheme = localStorage.getItem(themeStorageKey) || "dark";
+      } catch (error) {
+        console.warn("Could not load the MangaKhan theme preference.", error);
+      }
+      setTheme(savedTheme, false);
+      themeToggle.addEventListener("click", () => {
+        setTheme(root.dataset.theme === "light" ? "dark" : "light");
+      });
+
       const images = document.querySelectorAll(".manga-panel");
       const zoomOutButton = document.querySelector("#zoom-out");
       const zoomInButton = document.querySelector("#zoom-in");
