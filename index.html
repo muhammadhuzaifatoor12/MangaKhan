@@ -149,6 +149,11 @@
         gap: 8px;
       }
 
+      .zoom-slider {
+        width: clamp(90px, 18vw, 180px);
+        accent-color: #c7a2ff;
+      }
+
       .zoom-controls button {
         min-width: 42px;
         min-height: 42px;
@@ -348,8 +353,9 @@
           <div class="reader-toolbar">
             <p class="reader-hint">Read down the page. Zoom in for panel details.</p>
             <div class="zoom-controls" role="group" aria-label="Image zoom controls">
-              <button id="zoom-out" type="button" aria-label="Zoom out" disabled>-</button>
-              <output id="zoom-level" class="zoom-level" aria-live="polite">100%</output>
+              <button id="zoom-out" type="button" aria-label="Zoom out">-</button>
+              <input id="zoom-slider" class="zoom-slider" type="range" min="0" max="200" step="5" value="70" aria-label="Zoom level">
+              <output id="zoom-level" class="zoom-level" aria-live="polite">70%</output>
               <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
               <button id="zoom-reset" type="button" aria-label="Reset zoom">Fit</button>
             </div>
@@ -417,17 +423,19 @@
       const zoomOutButton = document.querySelector("#zoom-out");
       const zoomInButton = document.querySelector("#zoom-in");
       const zoomResetButton = document.querySelector("#zoom-reset");
+      const zoomSlider = document.querySelector("#zoom-slider");
       const zoomLevel = document.querySelector("#zoom-level");
-      const minZoom = 100;
-      const maxZoom = 300;
-      const zoomStep = 25;
-      let zoom = 100;
+      const minZoom = 0;
+      const maxZoom = 200;
+      const zoomStep = 10;
+      let zoom = 70;
 
       function updateZoom(nextZoom) {
-        zoom = Math.min(maxZoom, Math.max(minZoom, nextZoom));
+        zoom = Math.min(maxZoom, Math.max(minZoom, Math.round(nextZoom / 5) * 5));
         images.forEach((image) => {
           image.style.width = `${zoom}%`;
         });
+        zoomSlider.value = `${zoom}`;
         zoomLevel.value = `${zoom}%`;
         zoomLevel.textContent = `${zoom}%`;
         zoomOutButton.disabled = zoom === minZoom;
@@ -436,7 +444,8 @@
 
       zoomOutButton.addEventListener("click", () => updateZoom(zoom - zoomStep));
       zoomInButton.addEventListener("click", () => updateZoom(zoom + zoomStep));
-      zoomResetButton.addEventListener("click", () => updateZoom(minZoom));
+      zoomSlider.addEventListener("input", () => updateZoom(Number(zoomSlider.value)));
+      zoomResetButton.addEventListener("click", () => updateZoom(100));
       updateZoom(zoom);
     </script>
   </body>
