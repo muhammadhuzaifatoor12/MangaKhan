@@ -258,12 +258,97 @@
         white-space: nowrap;
       }
 
-      .brand img {
+      .brand-eyes {
+        position: relative;
         display: block;
+        flex: 0 0 auto;
         width: 70px;
+        line-height: 0;
+      }
+
+      .brand-eyes img {
+        display: block;
+        width: 100%;
         height: auto;
         border: 1px solid var(--surface-border);
         border-radius: 6px;
+      }
+
+      .eye-lid {
+        position: absolute;
+        top: 41%;
+        z-index: 1;
+        width: 34%;
+        height: 34%;
+        background: #030306;
+        clip-path: polygon(0 0, 100% 0, 100% 58%, 78% 78%, 50% 91%, 22% 78%, 0 58%);
+        pointer-events: none;
+        transform: scaleY(0);
+        transform-origin: top;
+        animation: eye-blink 4.6s ease-in-out infinite;
+      }
+
+      .eye-lid-left {
+        left: 2%;
+      }
+
+      .eye-lid-right {
+        right: 2%;
+        animation-delay: 80ms;
+      }
+
+      .eye-blood-tear {
+        position: absolute;
+        top: 68%;
+        left: 17.5%;
+        z-index: 2;
+        width: 3.4%;
+        height: 19%;
+        border-radius: 60% 45% 55% 55%;
+        background: linear-gradient(#e31322, #9d0718);
+        box-shadow: 0 0 4px rgb(235 20 38 / 75%);
+        clip-path: polygon(50% 0, 100% 35%, 86% 100%, 45% 83%, 0 36%);
+        pointer-events: none;
+        transform: scaleY(0);
+        transform-origin: top;
+        animation: eye-blood 4.6s ease-in-out infinite;
+      }
+
+      @keyframes eye-blink {
+        0%,
+        43%,
+        100% {
+          transform: scaleY(0);
+        }
+        45%,
+        47% {
+          transform: scaleY(1);
+        }
+        49% {
+          transform: scaleY(0);
+        }
+      }
+
+      @keyframes eye-blood {
+        0%,
+        47%,
+        78%,
+        100% {
+          opacity: 0;
+          transform: scaleY(0);
+        }
+        50% {
+          opacity: 0.9;
+          transform: scaleY(0.45);
+        }
+        57% {
+          opacity: 0.75;
+          transform: scaleY(1);
+        }
+        68% {
+          opacity: 0.3;
+          transform: scaleY(0.8);
+        }
       }
 
       .brand-wordmark {
@@ -818,7 +903,7 @@
           font-size: 1rem;
         }
 
-        .brand img {
+        .brand-eyes {
           width: 54px;
         }
 
@@ -868,7 +953,7 @@
           font-size: 0.9rem;
         }
 
-        .brand img {
+        .brand-eyes {
           width: 46px;
         }
 
@@ -987,7 +1072,12 @@
     <header class="site-header">
       <div class="header-inner">
         <a class="brand" href="./" aria-label="MangaKhan home">
-          <img src="Images/MangaKhan-profile.png" alt="MangaKhan profile">
+          <span class="brand-eyes">
+            <img src="Images/MangaKhan-profile.png" alt="MangaKhan profile">
+            <span class="eye-lid eye-lid-left" aria-hidden="true"></span>
+            <span class="eye-lid eye-lid-right" aria-hidden="true"></span>
+            <span class="eye-blood-tear" aria-hidden="true"></span>
+          </span>
           <span class="brand-wordmark"><span class="brand-manga">Manga</span><span class="brand-khan">Khan</span></span>
           <svg class="brand-sword" viewBox="0 0 40 36" aria-hidden="true">
             <path class="slash" d="m3 9 8-4M2 15l6-3M6 21l5-2"/>
