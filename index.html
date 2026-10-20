@@ -408,7 +408,7 @@
 
       .image-viewport {
         overflow: auto;
-        overscroll-behavior: contain;
+        overscroll-behavior: auto;
       }
 
       .manga-panels {
@@ -427,6 +427,17 @@
         max-width: none;
         height: auto;
         filter: none;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      html.is-manga-dragging {
+        scroll-behavior: auto !important;
+      }
+
+      html.is-manga-dragging .manga-panel {
+        cursor: grabbing;
       }
 
       figcaption {
@@ -862,6 +873,58 @@
       zoomSlider.addEventListener("input", () => updateZoom(Number(zoomSlider.value)));
       zoomResetButton.addEventListener("click", () => updateZoom(100));
       updateZoom(zoom);
+
+      images.forEach((image) => {
+        image.draggable = false;
+      });
+
+      const imageViewport = document.querySelector(".image-viewport");
+      let dragState = null;
+
+      function stopImageDrag() {
+        if (!dragState) {
+          return;
+        }
+        dragState = null;
+        root.classList.remove("is-manga-dragging");
+      }
+
+      imageViewport.addEventListener("pointerdown", (event) => {
+        if (
+          event.pointerType !== "mouse"
+          || event.button !== 0
+          || !(event.target instanceof Element)
+          || !event.target.closest(".manga-panel")
+        ) {
+          return;
+        }
+
+        dragState = {
+          pointerId: event.pointerId,
+          startY: event.clientY,
+          lastY: event.clientY,
+          dragging: false,
+        };
+      });
+
+      window.addEventListener("pointermove", (event) => {
+        if (!dragState || event.pointerId !== dragState.pointerId) {
+          return;
+        }
+
+        if (!dragState.dragging && Math.abs(event.clientY - dragState.startY) < 4) {
+          return;
+        }
+
+        dragState.dragging = true;
+        root.classList.add("is-manga-dragging");
+        event.preventDefault();
+        window.scrollBy(0, dragState.lastY - event.clientY);
+        dragState.lastY = event.clientY;
+      }, { passive: false });
+
+      window.addEventListener("pointerup", stopImageDrag);
+      window.addEventListener("pointercancel", stopImageDrag);
 
       const scrollBehavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "auto"
