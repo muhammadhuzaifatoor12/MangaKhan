@@ -462,75 +462,92 @@
 
       .story-summary {
         display: block;
-        width: min(100%, 520px);
+        width: min(100%, 460px);
         height: auto;
         margin: 10px auto 0;
         overflow: visible;
-        filter: drop-shadow(0 0 10px rgb(48 141 255 / 32%));
+        filter: drop-shadow(0 0 9px rgb(48 141 255 / 26%));
       }
 
-      .katana-red-slash,
-      .katana-blue-slash {
-        fill: none;
+      .ninja-shadow {
+        fill: #171724;
+        stroke: #59627d;
         stroke-linecap: round;
-        stroke-width: 5;
-      }
-
-      .katana-red-slash {
-        stroke: #f23b52;
-        filter: drop-shadow(0 0 5px rgb(242 59 82 / 80%));
-        animation: katana-slash 3.8s ease-in-out infinite;
-      }
-
-      .katana-blue-slash {
-        stroke: #55b8ff;
-        filter: drop-shadow(0 0 6px rgb(85 184 255 / 85%));
-        animation: katana-slash 3.8s ease-in-out -1.9s infinite;
-      }
-
-      .katana-blade {
-        fill: url("#katana-blade");
-        stroke: #d6edff;
-        stroke-width: 1.5;
-      }
-
-      .katana-edge {
-        fill: none;
-        stroke: #f5fbff;
-        stroke-linecap: round;
+        stroke-linejoin: round;
         stroke-width: 2;
       }
 
-      .katana-handle {
-        stroke: #da2947;
-        stroke-linecap: round;
-        stroke-width: 13;
-      }
-
-      .katana-wrap {
+      .ninja-accent {
         fill: none;
-        stroke: #e9f4ff;
+        stroke: #ef405b;
         stroke-linecap: round;
-        stroke-width: 2.5;
-      }
-
-      .katana-guard {
-        fill: #171927;
-        stroke: #58adff;
+        stroke-linejoin: round;
         stroke-width: 3;
       }
 
-      @keyframes katana-slash {
+      .ninja-eye {
+        fill: #8bd5ff;
+        filter: drop-shadow(0 0 4px #4daeff);
+      }
+
+      .ninja-motion {
+        fill: none;
+        stroke: #70bfff;
+        stroke-linecap: round;
+        stroke-width: 2;
+        opacity: 0.75;
+      }
+
+      .ninja-scarf {
+        fill: #e52e4b;
+        stroke: #ff6877;
+        stroke-linejoin: round;
+        stroke-width: 1;
+      }
+
+      .ninja-star {
+        fill: #a8dfff;
+        stroke: #398be1;
+        stroke-width: 1.5;
+        filter: drop-shadow(0 0 4px rgb(75 169 255 / 88%));
+      }
+
+      .ninja-star-flight {
+        animation: shuriken-flight 2.7s ease-in-out infinite;
+      }
+
+      .ninja-star-flight:nth-of-type(2) {
+        animation-delay: -0.9s;
+      }
+
+      .ninja-star-flight:nth-of-type(3) {
+        animation-delay: -1.8s;
+      }
+
+      .ninja-running {
+        transform-box: fill-box;
+        transform-origin: center bottom;
+        animation: ninja-run 480ms ease-in-out infinite alternate;
+      }
+
+      @keyframes shuriken-flight {
         0%,
         100% {
-          opacity: 0.55;
-          stroke-dasharray: 8 18;
-          stroke-dashoffset: 0;
+          opacity: 0.35;
+          transform: translate(0, 0) rotate(0deg);
         }
         50% {
           opacity: 1;
-          stroke-dasharray: 26 8;
-          stroke-dashoffset: 26;
+          transform: translate(54px, -11px) rotate(180deg);
+        }
+      }
+
+      @keyframes ninja-run {
+        from {
+          transform: translateY(0) rotate(-2deg);
+        }
+        to {
+          transform: translateY(-4px) rotate(2deg);
         }
       }
 
@@ -999,27 +1016,45 @@
               <path d="m21.5 17.8-.9 1.5m.9-1.5.9 1.5m-2.2-.4h2.6" stroke="var(--page-background)" stroke-width=".7" stroke-linecap="round"/>
             </svg>
           </p>
-          <svg class="story-summary" viewBox="0 0 600 130" role="img" aria-label="A long katana with glowing red and blue slashes">
+          <svg class="story-summary" viewBox="0 0 520 120" role="img" aria-label="A shadow ninja throws glowing shuriken toward a running ninja">
             <defs>
-              <linearGradient id="katana-blade" x1="0" y1="1" x2="1" y2="0">
-                <stop offset="0" stop-color="#7188a9"/>
-                <stop offset=".48" stop-color="#f7fbff"/>
-                <stop offset="1" stop-color="#75c6ff"/>
-              </linearGradient>
-              <linearGradient id="katana-glow" x1="0" y1="0" x2="1" y2="1">
-                <stop stop-color="#f23b52"/>
-                <stop offset="1" stop-color="#408dff"/>
-              </linearGradient>
+              <radialGradient id="ninja-aura">
+                <stop stop-color="#36598b" stop-opacity=".35"/>
+                <stop offset="1" stop-color="#182033" stop-opacity="0"/>
+              </radialGradient>
             </defs>
-            <path class="katana-red-slash" d="M115 95 493 13"/>
-            <path class="katana-blue-slash" d="m157 119 387-92"/>
-            <path d="m22 35 95 18m-87-2 88 17m-80-1 75 15" fill="none" stroke="url(#katana-glow)" stroke-linecap="round" stroke-width="3"/>
-            <path class="katana-handle" d="m48 74 83-18"/>
-            <path class="katana-wrap" d="m55 68 7 12m7-15 7 12m7-15 7 12m7-15 7 12m7-15 7 12m7-15 7 12"/>
-            <path class="katana-guard" d="m123 45 7-2 8 29-8 2c-8-5-11-20-7-29Z"/>
-            <path class="katana-blade" d="m134 57 394-48-16 18-377 49z"/>
-            <path class="katana-edge" d="m143 67 367-48"/>
-            <path d="m516 10 17-4-8 16-13 5z" fill="#eff9ff" stroke="#58adff" stroke-width="1.5"/>
+            <ellipse cx="265" cy="75" rx="218" ry="47" fill="url(#ninja-aura)"/>
+            <path class="ninja-motion" d="M31 53h47M12 66h48M48 79h35M414 37h32M427 48h44"/>
+            <g aria-hidden="true">
+              <path class="ninja-shadow" d="m112 51 13-24 19-7 17 11 8 22-13 9-26-1z"/>
+              <path class="ninja-scarf" d="m137 35 23 3 18-9-10 15-24 4z"/>
+              <path class="ninja-shadow" d="m128 60-21 18-23 7 3 8 32-4 25-16m-4-12 18 19 24 8-3 8-31-4-23-18"/>
+              <path class="ninja-shadow" d="m132 53 25 3 9 21-11 6-20-14-16 19-10-5 8-28z"/>
+              <path class="ninja-shadow" d="m153 53 18-7 18 4 9-5 4 5-10 10-19 1-17 6"/>
+              <path class="ninja-eye" d="m143 38 10 2-8 4z"/>
+              <path class="ninja-accent" d="m120 31 9 4m-28 47-12 5m74-26 12-5"/>
+            </g>
+            <g class="ninja-star-flight" aria-hidden="true" transform="translate(210 41)">
+              <path class="ninja-star" d="m0-9 3 5 6-2-2 6 5 4-7 1-2 6-3-6-7 1 4-5-3-6 6 2z"/>
+              <circle cx="0" cy="0" r="2" fill="#f3f8ff"/>
+            </g>
+            <g class="ninja-star-flight" aria-hidden="true" transform="translate(253 66)">
+              <path class="ninja-star" d="m0-8 3 4 5-2-2 5 4 4-6 1-2 5-3-5-5 1 3-4-2-5 5 2z"/>
+              <circle cx="0" cy="0" r="1.7" fill="#f3f8ff"/>
+            </g>
+            <g class="ninja-star-flight" aria-hidden="true" transform="translate(288 37)">
+              <path class="ninja-star" d="m0-7 2-4 3 5 5-1-2 5 4 3-6 2-1 5-3-5-5 1 2-5-4-3 6-1z"/>
+              <circle cx="0" cy="0" r="1.5" fill="#f3f8ff"/>
+            </g>
+            <g class="ninja-running" aria-hidden="true">
+              <path class="ninja-shadow" d="m389 66-20 16-22 8 3 8 31-4 23-18m5-13 15 18 23 9-3 8-30-4-22-17"/>
+              <path class="ninja-shadow" d="m387 48 18-18 22 3 15 17-5 19-18 10-26-8z"/>
+              <path class="ninja-scarf" d="m391 40 25 1 16-9-8 15-25 7z"/>
+              <path class="ninja-shadow" d="m394 58 26-3 12 19-11 6-21-14-13 18-11-5 9-25z"/>
+              <path class="ninja-shadow" d="m416 52 14-11 20-3 8-9 5 3-7 14-21 7-10 12"/>
+              <path class="ninja-eye" d="m409 39 10 1-8 5z"/>
+              <path class="ninja-accent" d="m431 35 8-4m-62 56-11 4"/>
+            </g>
           </svg>
         </header>
 
