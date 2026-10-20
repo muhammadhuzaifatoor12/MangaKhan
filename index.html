@@ -58,6 +58,7 @@
 
       html {
         min-height: 100%;
+        scroll-behavior: smooth;
         background: var(--page-background);
       }
 
@@ -480,9 +481,65 @@
         text-align: center;
       }
 
+      .page-jump-controls {
+        position: fixed;
+        z-index: 2;
+        right: 20px;
+        bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .page-jump-controls button {
+        display: grid;
+        width: 46px;
+        height: 46px;
+        place-items: center;
+        padding: 0;
+        border: 1px solid var(--surface-border);
+        border-radius: 50%;
+        background: var(--surface-background);
+        color: var(--text-primary);
+        box-shadow: 0 3px 14px rgb(0 0 0 / 18%);
+        cursor: pointer;
+        transition: background-color 250ms ease, border-color 250ms ease, transform 250ms ease;
+      }
+
+      .page-jump-controls button:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent-color);
+        background: var(--button-hover);
+      }
+
+      .page-jump-controls button:focus-visible {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 3px;
+      }
+
+      .page-jump-controls svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2.5;
+      }
+
       @media (max-width: 600px) {
         .header-inner {
           min-height: 62px;
+        }
+
+        .page-jump-controls {
+          right: 12px;
+          bottom: 12px;
+        }
+
+        .page-jump-controls button {
+          width: 42px;
+          height: 42px;
         }
 
         .theme-toggle {
@@ -734,6 +791,18 @@
     </main>
 
     <footer>&copy; 2026 MangaKhan &middot; Story by Tora B Khan</footer>
+    <nav class="page-jump-controls" aria-label="Page navigation">
+      <button id="scroll-to-top" type="button" aria-label="Scroll to top" title="Scroll to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m5 14 7-7 7 7M12 7v12"/>
+        </svg>
+      </button>
+      <button id="scroll-to-bottom" type="button" aria-label="Scroll to bottom" title="Scroll to bottom">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m5 10 7 7 7-7M12 17V5"/>
+        </svg>
+      </button>
+    </nav>
     <script>
       const root = document.documentElement;
       const themeToggle = document.querySelector("#theme-toggle");
@@ -793,6 +862,16 @@
       zoomSlider.addEventListener("input", () => updateZoom(Number(zoomSlider.value)));
       zoomResetButton.addEventListener("click", () => updateZoom(100));
       updateZoom(zoom);
+
+      const scrollBehavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
+      document.querySelector("#scroll-to-top").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: scrollBehavior });
+      });
+      document.querySelector("#scroll-to-bottom").addEventListener("click", () => {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: scrollBehavior });
+      });
     </script>
   </body>
 </html>
