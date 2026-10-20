@@ -27,9 +27,7 @@
         --accent-color: #c7a2ff;
         --accent-strong: #e0caff;
         --brand-color: #fff;
-        --title-start: #fff;
-        --title-mid: #b9a0ee;
-        --title-end: #716a7d;
+        --title-outline: #fff;
         background: var(--page-background);
         color: var(--text-primary);
         font-synthesis: none;
@@ -53,9 +51,7 @@
         --accent-color: #7144a8;
         --accent-strong: #593487;
         --brand-color: #282334;
-        --title-start: #282334;
-        --title-mid: #9c5bd6;
-        --title-end: #fff;
+        --title-outline: #18151f;
       }
 
       * {
@@ -411,16 +407,17 @@
         margin: 0;
         background-image: linear-gradient(
           90deg,
-          var(--title-start) 0%,
-          var(--title-mid) 28%,
-          var(--title-end) 50%,
-          var(--title-mid) 72%,
-          var(--title-start) 100%
+          #fff 0%,
+          #e8e8e8 30%,
+          #080808 50%,
+          #e8e8e8 70%,
+          #fff 100%
         );
         background-size: 300% 100%;
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
+        -webkit-text-stroke: 0.65px var(--title-outline);
         font-size: clamp(2.2rem, 7vw, 4.5rem);
         letter-spacing: -0.045em;
         line-height: 1.05;
@@ -524,10 +521,38 @@
         animation-delay: -1.8s;
       }
 
-      .ninja-running {
+      .training-dummy {
         transform-box: fill-box;
         transform-origin: center bottom;
-        animation: ninja-run 480ms ease-in-out infinite alternate;
+        animation: dummy-sway 2.4s ease-in-out infinite alternate;
+      }
+
+      .dummy-wood {
+        fill: #9b704b;
+        stroke: #dfb47a;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 3;
+      }
+
+      .dummy-wrap {
+        fill: none;
+        stroke: #e3c79a;
+        stroke-linecap: round;
+        stroke-width: 2;
+      }
+
+      .dummy-target {
+        fill: #9d293e;
+        stroke: #ff7781;
+        stroke-width: 2;
+      }
+
+      .dummy-target-center {
+        fill: #20243a;
+        stroke: #78c9ff;
+        stroke-width: 2;
+        filter: drop-shadow(0 0 4px rgb(75 169 255 / 75%));
       }
 
       @keyframes shuriken-flight {
@@ -542,12 +567,12 @@
         }
       }
 
-      @keyframes ninja-run {
+      @keyframes dummy-sway {
         from {
-          transform: translateY(0) rotate(-2deg);
+          transform: rotate(-1deg);
         }
         to {
-          transform: translateY(-4px) rotate(2deg);
+          transform: rotate(1deg);
         }
       }
 
@@ -1016,7 +1041,7 @@
               <path d="m21.5 17.8-.9 1.5m.9-1.5.9 1.5m-2.2-.4h2.6" stroke="var(--page-background)" stroke-width=".7" stroke-linecap="round"/>
             </svg>
           </p>
-          <svg class="story-summary" viewBox="0 0 520 120" role="img" aria-label="A shadow ninja throws glowing shuriken toward a running ninja">
+          <svg class="story-summary" viewBox="0 0 520 120" role="img" aria-label="A shadow ninja throws glowing shuriken at a wooden training dummy">
             <defs>
               <radialGradient id="ninja-aura">
                 <stop stop-color="#36598b" stop-opacity=".35"/>
@@ -1046,14 +1071,14 @@
               <path class="ninja-star" d="m0-7 2-4 3 5 5-1-2 5 4 3-6 2-1 5-3-5-5 1 2-5-4-3 6-1z"/>
               <circle cx="0" cy="0" r="1.5" fill="#f3f8ff"/>
             </g>
-            <g class="ninja-running" aria-hidden="true">
-              <path class="ninja-shadow" d="m389 66-20 16-22 8 3 8 31-4 23-18m5-13 15 18 23 9-3 8-30-4-22-17"/>
-              <path class="ninja-shadow" d="m387 48 18-18 22 3 15 17-5 19-18 10-26-8z"/>
-              <path class="ninja-scarf" d="m391 40 25 1 16-9-8 15-25 7z"/>
-              <path class="ninja-shadow" d="m394 58 26-3 12 19-11 6-21-14-13 18-11-5 9-25z"/>
-              <path class="ninja-shadow" d="m416 52 14-11 20-3 8-9 5 3-7 14-21 7-10 12"/>
-              <path class="ninja-eye" d="m409 39 10 1-8 5z"/>
-              <path class="ninja-accent" d="m431 35 8-4m-62 56-11 4"/>
+            <g class="training-dummy" aria-hidden="true">
+              <path class="dummy-wood" d="M407 27v70m-22-57h45m-39 0-8 17m42-17 8 17"/>
+              <path class="dummy-wood" d="m397 31 4-13 7-6 8 2 5 8-4 10-10 5z"/>
+              <path class="dummy-wrap" d="m396 25 22 7m-18-15 17 16m-33 13 12-5m20-3 13 8m-26 20 13-20m-12 20 13-20"/>
+              <ellipse class="dummy-target" cx="408" cy="44" rx="7" ry="10"/>
+              <circle class="dummy-target-center" cx="408" cy="44" r="3.5"/>
+              <path class="dummy-wood" d="m393 96 29 0m-24 5 19 0"/>
+              <path class="ninja-accent" d="m402 19 7-4 9 5"/>
             </g>
           </svg>
         </header>
