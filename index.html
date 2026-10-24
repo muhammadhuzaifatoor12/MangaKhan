@@ -60,7 +60,6 @@
 
       html {
         min-height: 100%;
-        scroll-behavior: smooth;
         background: var(--page-background);
       }
 
@@ -374,6 +373,7 @@
       .brand-khan {
         background-image: repeating-conic-gradient(from 0deg at 50% 50%, #f5d0fe 0deg 9deg, #c084fc 9deg 18deg, #7e22ce 18deg 27deg, #4c1d95 27deg 36deg);
         background-size: 180% 180%;
+        filter: drop-shadow(0 0 6px rgb(168 85 247 / 68%));
         animation: hypnotic-purple 7s linear infinite;
       }
 
@@ -426,11 +426,9 @@
       @keyframes hypnotic-purple {
         from {
           background-position: 0% 50%;
-          filter: hue-rotate(0deg) drop-shadow(0 0 5px rgb(168 85 247 / 65%));
         }
         to {
           background-position: 100% 50%;
-          filter: hue-rotate(28deg) drop-shadow(0 0 8px rgb(168 85 247 / 75%));
         }
       }
 
@@ -514,11 +512,9 @@
         0%,
         100% {
           background-position: 0% 50%;
-          filter: brightness(1.15) drop-shadow(0 0 12px var(--page-glow));
         }
         50% {
           background-position: 100% 50%;
-          filter: brightness(0.82) drop-shadow(0 0 3px var(--page-glow));
         }
       }
 
@@ -1188,20 +1184,24 @@
           <figure>
             <div class="image-viewport" role="group" aria-label="Manga columns in reading order">
               <ol class="manga-panels">
-                <li><img class="manga-panel" src="Images/manga-panels/column-01-family-portrait.png" alt="A young family gathers around their newborn in the forest." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/column-02-family-campfire.png" alt="The father plays with their newborn while the mother prepares a meal." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/column-03-forest-training.webp" alt="The young boy trains in the forest." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/column-04-forest-ambush.png" alt="Vampiric beasts ambush the family in the forest." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/column-05-moonlit-ambush.png" alt="The father protects his family during a moonlit beast attack." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/moonlit-bite-scene-6.jpg" alt="ERA OF SOUL MASTERS, scene 6." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/scene-7-2560w.jpg" alt="ERA OF SOUL MASTERS, scene 7." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/scene-8-2560w.jpg" alt="ERA OF SOUL MASTERS, scene 8." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/scene-9-left-2240w.webp" alt="ERA OF SOUL MASTERS, scene 9." loading="lazy"></li>
-                <li><img class="manga-panel" src="Images/manga-panels/scene-10-3120w.webp" alt="ERA OF SOUL MASTERS, scene 10." loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/column-01-family-portrait.png" alt="A young family gathers around their newborn in the forest." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/column-02-family-campfire.png" alt="The father plays with their newborn while the mother prepares a meal." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/column-03-forest-training.webp" alt="The young boy trains in the forest." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/column-04-forest-ambush.png" alt="Vampiric beasts ambush the family in the forest." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/column-05-moonlit-ambush.png" alt="The father protects his family during a moonlit beast attack." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/moonlit-bite-scene-6.jpg" alt="ERA OF SOUL MASTERS, scene 6." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-7-2560w.jpg" alt="ERA OF SOUL MASTERS, scene 7." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-8-2560w.jpg" alt="ERA OF SOUL MASTERS, scene 8." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-9-left-2240w.webp" alt="ERA OF SOUL MASTERS, scene 9." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-10-3120w.webp" alt="ERA OF SOUL MASTERS, scene 10." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-13-three-soul-rings.png" alt="ERA OF SOUL MASTERS, scene 13: Three Soul Rings, One New Path." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-14-awakening-soul-rings.png" alt="ERA OF SOUL MASTERS, scene 14: Awakening of the Three Soul Rings." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-15-pain-and-memory.png" alt="ERA OF SOUL MASTERS, scene 15: Awakening Through Pain and Memory." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-16-rabbits-call.png" alt="ERA OF SOUL MASTERS, scene 16: A Rabbit’s Call to Continue." loading="lazy" decoding="async"></li>
               </ol>
             </div>
             <figcaption>
-              Read the scenes in order, from scene 1 through scene 10.
+              Read scenes 1-10, then continue with scenes 13-16.
             </figcaption>
           </figure>
         </section>
@@ -1211,7 +1211,7 @@
           <div class="roadmap-grid">
             <article class="roadmap-card">
               <h3>High-resolution manga reader</h3>
-              <p>Read all ten scenes now with original-resolution artwork, zoom controls, and mobile-friendly scrolling.</p>
+              <p>Read 14 available scenes with original-resolution artwork, zoom controls, and mobile-friendly scrolling.</p>
             </article>
             <article class="roadmap-card">
               <h3>Real website features</h3>
