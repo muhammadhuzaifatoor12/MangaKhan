@@ -676,7 +676,7 @@
       }
 
       .reader {
-        width: min(100%, 768px);
+        width: min(100%, 1100px);
         margin: 0 auto;
       }
 
@@ -1175,11 +1175,11 @@
 
         <section class="reader" aria-label="Manga page reader">
           <div class="reader-toolbar">
-            <p class="reader-hint">Read down the page. Zoom in for column details.</p>
+            <p class="reader-hint">Read down the page. Zoom in to see the details clearly.</p>
             <div class="zoom-controls" role="group" aria-label="Image zoom controls">
               <button id="zoom-out" type="button" aria-label="Zoom out">-</button>
-              <input id="zoom-slider" class="zoom-slider" type="range" min="0" max="200" step="5" value="70" aria-label="Zoom level">
-              <output id="zoom-level" class="zoom-level" aria-live="polite">70%</output>
+              <input id="zoom-slider" class="zoom-slider" type="range" min="50" max="300" step="5" value="100" aria-label="Zoom level">
+              <output id="zoom-level" class="zoom-level" aria-live="polite">100%</output>
               <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
               <button id="zoom-reset" type="button" aria-label="Reset zoom">Fit</button>
             </div>
@@ -1193,10 +1193,15 @@
                 <li><img class="manga-panel" src="Images/manga-panels/column-03-forest-training.webp" alt="The young boy trains in the forest." loading="lazy"></li>
                 <li><img class="manga-panel" src="Images/manga-panels/column-04-forest-ambush.png" alt="Vampiric beasts ambush the family in the forest." loading="lazy"></li>
                 <li><img class="manga-panel" src="Images/manga-panels/column-05-moonlit-ambush.png" alt="The father protects his family during a moonlit beast attack." loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/moonlit-bite-scene-6.jpg" alt="ERA OF SOUL MASTERS, scene 6." loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-7-2560w.jpg" alt="ERA OF SOUL MASTERS, scene 7." loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-8-2560w.jpg" alt="ERA OF SOUL MASTERS, scene 8." loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-9-left-2240w.webp" alt="ERA OF SOUL MASTERS, scene 9." loading="lazy"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-10-3120w.webp" alt="ERA OF SOUL MASTERS, scene 10." loading="lazy"></li>
               </ol>
             </div>
             <figcaption>
-              Read each column from top to bottom.
+              Read the scenes in order, from scene 1 through scene 10.
             </figcaption>
           </figure>
         </section>
@@ -1205,8 +1210,8 @@
           <h2 class="roadmap-heading" id="roadmap-heading">What’s coming to MangaKhan</h2>
           <div class="roadmap-grid">
             <article class="roadmap-card">
-              <h3>Proper manga reader</h3>
-              <p>Clear, high-resolution pages, next and previous chapters, zoom, and mobile-friendly reading.</p>
+              <h3>High-resolution manga reader</h3>
+              <p>Read all ten scenes now with original-resolution artwork, zoom controls, and mobile-friendly scrolling.</p>
             </article>
             <article class="roadmap-card">
               <h3>Real website features</h3>
@@ -1267,10 +1272,10 @@
       const zoomResetButton = document.querySelector("#zoom-reset");
       const zoomSlider = document.querySelector("#zoom-slider");
       const zoomLevel = document.querySelector("#zoom-level");
-      const minZoom = 0;
-      const maxZoom = 200;
+      const minZoom = 50;
+      const maxZoom = 300;
       const zoomStep = 10;
-      let zoom = 70;
+      let zoom = 100;
 
       function updateZoom(nextZoom) {
         zoom = Math.min(maxZoom, Math.max(minZoom, Math.round(nextZoom / 5) * 5));
