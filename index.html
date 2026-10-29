@@ -729,6 +729,63 @@
         text-align: center;
       }
 
+      .zoom-dock {
+        position: fixed;
+        z-index: 3;
+        top: 50%;
+        left: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 6px;
+        transform: translateY(-50%);
+        border: 1px solid var(--surface-border);
+        border-radius: 12px;
+        background: var(--surface-background);
+        box-shadow: 0 3px 14px rgb(0 0 0 / 24%);
+        backdrop-filter: blur(12px);
+      }
+
+      .zoom-dock button {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        padding: 0;
+        border: 1px solid var(--surface-border);
+        border-radius: 8px;
+        background: var(--button-background);
+        color: var(--text-primary);
+        font: inherit;
+        font-size: 1.25rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .zoom-dock button:hover:not(:disabled) {
+        border-color: var(--accent-color);
+        background: var(--button-hover);
+      }
+
+      .zoom-dock button:focus-visible {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 2px;
+      }
+
+      .zoom-dock button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .zoom-dock output {
+        min-width: 40px;
+        color: var(--text-primary);
+        font-size: 0.75rem;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+      }
+
       figure {
         margin: 0;
         border: 1px solid var(--surface-border);
@@ -872,6 +929,16 @@
       @media (max-width: 600px) {
         .header-inner {
           min-height: 62px;
+        }
+
+        .zoom-dock {
+          left: 8px;
+          padding: 4px;
+        }
+
+        .zoom-dock button {
+          width: 36px;
+          height: 36px;
         }
 
         .page-jump-controls {
@@ -1204,20 +1271,25 @@
                 <li><img class="manga-panel" src="Images/manga-panels/scene-18-awakening-column.png" alt="ERA OF SOUL MASTERS, scene 18: Awakening." loading="lazy" decoding="async"></li>
                 <li><img class="manga-panel" src="Images/manga-panels/scene-19-wings-of-the-broken-egg.png" alt="ERA OF SOUL MASTERS, scene 19: Wings of the Broken Egg." loading="lazy" decoding="async"></li>
                 <li><img class="manga-panel" src="Images/manga-panels/scene-20-three-souls-one-body.png" alt="ERA OF SOUL MASTERS, scene 20: Three Souls, One Body." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-21-mystic-fruit-growing-soul-power.png" alt="ERA OF SOUL MASTERS, scene 21: Mystic Fruit and Growing Soul Power." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-22-phoenix-soul-ring-earthly-hands.png" alt="ERA OF SOUL MASTERS, scene 22: Phoenix Soul Ring, Earthly Hands Awakening." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-23-skyfall-clash-phoenixs-end.png" alt="ERA OF SOUL MASTERS, scene 23: Skyfall Clash, the Phoenix’s End." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-24-phoenix-column-3x-1764w.png" alt="ERA OF SOUL MASTERS, scene 24." loading="lazy" decoding="async"></li>
+                <li><img class="manga-panel" src="Images/manga-panels/scene-25-phoenix-campfire-journey.png" alt="ERA OF SOUL MASTERS, scene 25: Phoenix Campfire Journey." loading="lazy" decoding="async"></li>
               </ol>
             </div>
             <figcaption>
-              Read scenes 1-20 in order.
+              Read scenes 1-25 in order.
             </figcaption>
           </figure>
         </section>
 
         <section class="roadmap" aria-labelledby="roadmap-heading">
-          <h2 class="roadmap-heading" id="roadmap-heading">What’s coming to MangaKhan</h2>
+          <h2 class="roadmap-heading" id="roadmap-heading">MangaKhan features</h2>
           <div class="roadmap-grid">
             <article class="roadmap-card">
               <h3>High-resolution manga reader</h3>
-              <p>Read all 20 scenes with original-resolution artwork, zoom controls, and mobile-friendly scrolling.</p>
+              <p>Read all 25 scenes with original-resolution artwork, zoom controls, and mobile-friendly scrolling.</p>
             </article>
             <article class="roadmap-card">
               <h3>Real website features</h3>
@@ -1240,6 +1312,11 @@
           <path d="m5 10 7 7 7-7M12 17V5"/>
         </svg>
       </button>
+    </nav>
+    <nav class="zoom-dock" aria-label="Quick zoom controls">
+      <button id="zoom-in-floating" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+      <output id="floating-zoom-level" aria-live="polite">100%</output>
+      <button id="zoom-out-floating" type="button" aria-label="Zoom out" title="Zoom out">-</button>
     </nav>
     <script>
       const root = document.documentElement;
@@ -1275,9 +1352,12 @@
       const images = document.querySelectorAll(".manga-panel");
       const zoomOutButton = document.querySelector("#zoom-out");
       const zoomInButton = document.querySelector("#zoom-in");
+      const floatingZoomOutButton = document.querySelector("#zoom-out-floating");
+      const floatingZoomInButton = document.querySelector("#zoom-in-floating");
       const zoomResetButton = document.querySelector("#zoom-reset");
       const zoomSlider = document.querySelector("#zoom-slider");
       const zoomLevel = document.querySelector("#zoom-level");
+      const floatingZoomLevel = document.querySelector("#floating-zoom-level");
       const minZoom = 50;
       const maxZoom = 300;
       const zoomStep = 10;
@@ -1291,12 +1371,18 @@
         zoomSlider.value = `${zoom}`;
         zoomLevel.value = `${zoom}%`;
         zoomLevel.textContent = `${zoom}%`;
+        floatingZoomLevel.value = `${zoom}%`;
+        floatingZoomLevel.textContent = `${zoom}%`;
         zoomOutButton.disabled = zoom === minZoom;
         zoomInButton.disabled = zoom === maxZoom;
+        floatingZoomOutButton.disabled = zoom === minZoom;
+        floatingZoomInButton.disabled = zoom === maxZoom;
       }
 
       zoomOutButton.addEventListener("click", () => updateZoom(zoom - zoomStep));
       zoomInButton.addEventListener("click", () => updateZoom(zoom + zoomStep));
+      floatingZoomOutButton.addEventListener("click", () => updateZoom(zoom - zoomStep));
+      floatingZoomInButton.addEventListener("click", () => updateZoom(zoom + zoomStep));
       zoomSlider.addEventListener("input", () => updateZoom(Number(zoomSlider.value)));
       zoomResetButton.addEventListener("click", () => updateZoom(100));
       updateZoom(zoom);
